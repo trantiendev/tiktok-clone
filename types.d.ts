@@ -1,4 +1,5 @@
 export interface Video {
+  _createdAt: string;
   caption: string;
   video: {
     asset: {
@@ -27,4 +28,11 @@ export interface Video {
     };
   }[];
   userId: string;
+}
+
+export interface IUser {
+  _id: string;
+  _type: string;
+  userName: string;
+  image: string;
 }

@@ -51,4 +51,16 @@ a {
   .tag {
     @apply xl:border-2 hover:bg-primary xl:border-gray-300 px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-black;
   }
+
+  .video-container-secondary {
+    @apply pt-[132.653%] h-0 w-full;
+  }
+
+  .video-container-primary {
+    @apply h-[calc(450px_+_((100vw_-_768px)_/_1152)_*_100)] w-0 pl-[56.25%];
+  }
+
+  .feed-video {
+    @apply w-full h-full absolute top-0 left-0;
+  }
 }
