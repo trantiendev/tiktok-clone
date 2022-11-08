@@ -1,31 +1,30 @@
+import { useState } from 'react';
 import axios from 'axios';
-import NoResults from '../components/NoResults';
-import VideoCard from '../components/VideoCard';
+
 import { Video } from '../types';
+import { BASE_URL } from '../utils';
+import InfiniteListPosts from '../components/InfiniteListPosts';
 
 interface IProps {
-  videos: Video[];
+  feedPosts: Video[];
 }
 
-const Home = ({ videos }: IProps) => {
+const Home = ({ feedPosts }: IProps) => {
+  const [posts, setPosts] = useState<Video[]>(feedPosts);
 
   return (
-    <div className='flex flex-col gap-10 videos h-full'>
-      {videos.length 
-        ? videos?.map((video: Video) => (
-          <VideoCard post={video} isShowingOnHome key={video._id} />
-        )) 
-        : <NoResults text={`No Videos`} />}
+    <div className="flex flex-col gap-10 videos h-full">
+      <InfiniteListPosts posts={posts} setPosts={setPosts} />
     </div>
   );
 };
 
 export const getServerSideProps = async () => {
-  const { data } = await axios.get('http://localhost:3000/api/post');
+  const { data: feedPosts } = await axios.get(`${BASE_URL}/api/post/feedPosts`);
 
   return {
     props: {
-      videos: data,
+      feedPosts,
     },
   };
 };

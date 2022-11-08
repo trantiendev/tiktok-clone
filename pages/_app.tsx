@@ -19,13 +19,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GoogleOAuthProvider
       clientId={`${process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}`}
     >
-      <div className="xl:w-[1200px] m-auto overflow-hidden h-[100vh]">
+      <div className="xl:w-[1200px] m-auto">
         <Navbar />
-        <div className="flex gap-6 md:gap-20 ">
-          <div className="h-[92vh] overflow-hidden xl:hover:overflow-auto">
+        <div className="flex gap-6 md:gap-20 mt-[70px]">
+          <div className="h-[92vh] overflow-hidden xl:hover:overflow-auto scrollbar-hide sticky top-[70px]">
             <Sidebar />
           </div>
-          <div className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
+          <div className="mt-4 flex flex-col gap-10 videos flex-1 pr-3">
             <Component {...pageProps} />
           </div>
         </div>
