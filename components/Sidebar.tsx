@@ -8,12 +8,12 @@ import GoogleLogin from 'react-google-login';
 import Discover from './Discover';
 import SuggestedAccounts from './SuggestedAccounts';
 import Footer from './Footer';
+import useAuthStore from '../store/authStore';
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const { pathname } = useRouter();
-
-  const userProfile = false;
+  const { fetchAllUsers, allUsers, userProfile }: any = useAuthStore();
 
   return (
     <div>
@@ -39,7 +39,11 @@ const Sidebar = () => {
           </div>
 
           <Discover />
-          <SuggestedAccounts />
+          <SuggestedAccounts
+            fetchAllUsers={fetchAllUsers}
+            allUsers={allUsers}
+            userProfile={userProfile}
+          />
           <Footer />
         </div>
       )}
