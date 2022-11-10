@@ -25,7 +25,7 @@ const Search = ({ videos }: { videos: Video[] }) => {
   );
 
   return (
-    <div className="w-full  ">
+    <>
       <div className="flex gap-10 mb-10 border-b-2 border-gray-200 md:fixed z-50 bg-white w-full">
         <p
           onClick={() => setIsAccounts(true)}
@@ -73,17 +73,17 @@ const Search = ({ videos }: { videos: Video[] }) => {
           )}
         </div>
       ) : (
-        <div className="md:mt-16 flex flex-wrap gap-6 md:justify-start ">
+        <div className="md:mt-16 grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {videos.length ? (
             videos.map((post: Video, idx: number) => (
-              <VideoCard post={post} key={idx} />
+              <VideoCard secondaryVCard post={post} key={idx} />
             ))
           ) : (
             <NoResults text={`No Video Results for ${searchTerm}`} />
           )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

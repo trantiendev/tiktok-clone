@@ -76,7 +76,7 @@ const Profile = ({ data }: IProps) => {
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {videosList?.length ? (
             videosList.map((post: Video, idx: number) => (
-              <VideoCard profile post={post} key={idx} />
+              <VideoCard secondaryVCard post={post} key={idx} />
             ))
           ) : (
             <NoResults
