@@ -29,7 +29,7 @@ export const allPostsQuery = () => {
   return query;
 };
 
-export const feedPosts = () => {
+export const firstFeedPosts = () => {
   const query = `*[_type == "post"] | order(_createdAt desc) [0...3]{
     _createdAt,
     _id,
@@ -69,6 +69,44 @@ export const fetchNextFeedPosts = (
     dateTime(_createdAt) < dateTime('${lastPublishedAt}')
   || (dateTime(_createdAt) == dateTime('${lastPublishedAt}') && _id != '${lastId}')
 )] | order(_createdAt desc) [0...3]{
+    _createdAt,
+    _id,
+     caption,
+       video{
+        asset->{
+          _id,
+          url
+        }
+      },
+      userId,
+      postedBy->{
+        _id,
+        userName,
+        image
+      },
+    likes,
+    comments[]{
+      comment,
+      _key,
+      postedBy->{
+      _id,
+      userName,
+      image
+    },
+    }
+  }`;
+
+  return query;
+};
+
+export const fetchNextDetailPosts = (
+  lastPublishedAt: string,
+  lastId: string
+) => {
+  const query = `*[_type == "post" && (
+    dateTime(_createdAt) < dateTime('${lastPublishedAt}')
+  || (dateTime(_createdAt) == dateTime('${lastPublishedAt}') && _id != '${lastId}')
+)] | order(_createdAt desc) [0...1]{
     _createdAt,
     _id,
      caption,
