@@ -1,13 +1,16 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 
 import '../styles/globals.css';
+import { ScrollRestorer } from '../utils/ScrollRestorer';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isSSR, setIsSSR] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     setIsSSR(false);
@@ -26,7 +29,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Sidebar />
           </div>
           <div className="mt-4 flex flex-col gap-10 videos flex-1 pr-3">
-            <Component {...pageProps} />
+            <ScrollRestorer />
+            <Component {...pageProps} key={router.asPath} />
           </div>
         </div>
       </div>
