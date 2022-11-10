@@ -10,11 +10,11 @@ interface IProps {
 }
 
 const Home = ({ feedPosts }: IProps) => {
-  const [posts, setPosts] = useState<Video[]>(feedPosts);
+  const [posts] = useState<Video[]>(feedPosts);
 
   return (
     <div className="flex flex-col gap-10 videos h-full">
-      <InfiniteListPosts posts={posts} setPosts={setPosts} />
+      <InfiniteListPosts posts={posts} />
     </div>
   );
 };

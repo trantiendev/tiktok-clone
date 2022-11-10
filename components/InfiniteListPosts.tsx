@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useState, SetStateAction } from 'react';
+import { Dispatch, useEffect, useState, SetStateAction, memo } from 'react';
 import Image from 'next/image';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NoResults from '../components/NoResults';
@@ -11,27 +11,27 @@ import useAuthStore from '../store/authStore';
 
 interface IProps {
   posts: Video[];
-  setPosts: Dispatch<SetStateAction<Video[]>>;
 }
 
-const InfiniteListPosts = ({ posts, setPosts }: IProps) => {
-  const [lastPublishedAt, setLastPublishedAt] = useState<string>('');
-  const [lastId, setLastId] = useState<string | null>('');
+const InfiniteListPosts = ({ posts }: IProps) => {
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
   const { fetchFeedPosts, listFeedPosts } = useAuthStore();
+  const { posts: feedPosts, firstId, lastId, lastPublishedAt } = listFeedPosts;
+console.log('👻',hasMorePosts,  lastId)
+  useEffect(() => {
+    if (posts[0]?._id !== firstId) {
+      fetchFeedPosts({
+        posts,
+        firstId: posts[0]?._id,
+        lastId: posts[posts.length - 1]?._id,
+        lastPublishedAt: posts[posts.length - 1]?._createdAt,
+      });
+    }
+  }, [posts]);
 
   useEffect(() => {
-    setLastPublishedAt(() => posts[posts.length - 1]?._createdAt);
-    setLastId(() => posts[posts.length - 1]?._id);
-
-    // fetchFeedPosts({
-    //   posts,
-    //   lastId: posts[posts.length - 1]?._id,
-    //   lastPublishedAt: posts[posts.length - 1]?._createdAt,
-    // });
-
-    if (!posts?.length) setHasMorePosts((hasMorePosts) => !hasMorePosts);
-  }, [posts]);
+    if (lastId === null) setHasMorePosts(false);
+  }, [])
 
   const handleLoadMore = async () => {
     if (lastId === null) return [];
@@ -41,32 +41,27 @@ const InfiniteListPosts = ({ posts, setPosts }: IProps) => {
     );
 
     if (result?.length > 0) {
-      setLastPublishedAt(result[result.length - 1]._createdAt);
-      setLastId(result[result.length - 1]._id);
-      setPosts((posts: Video[]) => [...posts, ...result]);
-
-      // fetchFeedPosts({
-      //   posts: [...posts, ...result],
-      //   lastId: result[result.length - 1]._id,
-      //   lastPublishedAt: result[result.length - 1]._createdAt,
-      // });
+      fetchFeedPosts({
+        ...listFeedPosts,
+        posts: [...feedPosts, ...result],
+        lastId: result[result.length - 1]._id,
+        lastPublishedAt: result[result.length - 1]._createdAt,
+      });
     } else {
-      // fetchFeedPosts({
-      //   ...listFeedPosts,
-      //   lastId: null,
-      // });
-      setLastId(null);
-      setHasMorePosts((hasMorePosts) => !hasMorePosts);
-    }
-    // console.log('handleLoadMore')
-  };
-  // console.log('listFeedPosts', listFeedPosts)
+      fetchFeedPosts({
+        ...listFeedPosts,
+        lastId: null,
+      });
 
-  if (!posts?.length) return <NoResults text={`No Videos`} />;
+      setHasMorePosts(false);
+    }
+  };
+
+  if (!feedPosts?.length) return <NoResults text={`No Videos`} />;
 
   return (
     <InfiniteScroll
-      dataLength={posts.length}
+      dataLength={feedPosts.length}
       next={handleLoadMore}
       hasMore={hasMorePosts}
       loader={
@@ -92,11 +87,11 @@ const InfiniteListPosts = ({ posts, setPosts }: IProps) => {
         </div>
       }
     >
-      {posts?.map((post: Video) => (
+      {feedPosts.map((post: Video) => (
         <VideoCard post={post} isShowingOnHome key={post._id} />
       ))}
     </InfiniteScroll>
   );
 };
 
-export default InfiniteListPosts;
+export default memo(InfiniteListPosts);

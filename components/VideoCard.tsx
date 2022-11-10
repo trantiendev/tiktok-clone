@@ -12,13 +12,13 @@ import { Video } from './../types';
 interface IProps {
   post: Video;
   isShowingOnHome?: boolean;
-  profile?: any;
+  secondaryVCard?: any;
 }
 
 const VideoCard: NextPage<IProps> = ({
   post: { caption, postedBy, video, _id, likes },
   isShowingOnHome,
-  profile,
+  secondaryVCard,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -26,17 +26,19 @@ const VideoCard: NextPage<IProps> = ({
     <div
       onMouseEnter={() => videoRef?.current?.play()}
       onMouseLeave={() => videoRef?.current?.pause()}
-      className={`flex flex-col ${!profile && 'pb-6 border-b border-gray-200'}`}
+      className={`flex flex-col ${
+        !secondaryVCard && 'pb-6 border-b border-gray-200'
+      }`}
     >
-      {profile ? null : (
+      {secondaryVCard ? null : (
         <div>
           <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
             <div className="md:w-16 md:h-16 w-10 h-10">
               <Link href={`/profile/${postedBy?._id}`}>
                 <>
                   <Image
-                    width={62}
-                    height={62}
+                    width={56}
+                    height={56}
                     className=" rounded-full"
                     src={postedBy?.image}
                     alt="user-profile"
@@ -68,20 +70,44 @@ const VideoCard: NextPage<IProps> = ({
       <div className="max-w-[604px]">
         <div
           className={`rounded-3xl relative ${
-            profile ? 'video-container-secondary' : 'video-container-primary'
+            secondaryVCard
+              ? 'video-container-secondary'
+              : 'video-container-primary'
           }`}
         >
           <Link href={`/detail/${_id}`}>
             <video
               loop
-              controls={profile ? false : true}
+              controls={secondaryVCard ? false : true}
               ref={videoRef}
               src={video.asset.url}
               className="rounded-md cursor-pointer object-cover feed-video"
             ></video>
           </Link>
         </div>
-        {profile && <p className="mt-2">{caption}</p>}
+        {secondaryVCard && (
+          <>
+            <p className="mt-2">{caption}</p>
+            <Link href={`/profile/${postedBy?._id}`}>
+              <div className="flex mt-1 cursor-pointer">
+                <div className="w-6 h-6">
+                  <Image
+                    width={20}
+                    height={20}
+                    className=" rounded-full"
+                    src={postedBy?.image}
+                    alt="user-profile"
+                    layout="responsive"
+                  />
+                </div>
+                <p className="flex gap-2 items-center md:text-md text-primary ml-1">
+                  {postedBy.userName}{' '}
+                  <GoVerified className="text-blue-400 text-md" />
+                </p>
+              </div>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
