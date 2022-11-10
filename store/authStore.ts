@@ -8,6 +8,7 @@ const authStore = (set: any) => ({
   allUsers: [],
   listFeedPosts: {
     posts: [],
+    firstId: '',
     lastId: '',
     lastPublishedAt: '',
   },
