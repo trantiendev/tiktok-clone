@@ -20,8 +20,8 @@ interface IProps {
 const Detail = ({ postDetails }: IProps) => {
   const router = useRouter();
   const [post, setPost] = useState(postDetails);
-  const { userProfile, all }: any = useAuthStore();
-  const [comment, setComment] = useState('');
+  const { userProfile }: any = useAuthStore();
+  const [comment, setComment] = useState<string>('');
   const [isPostingComment, setIsPostingComment] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);

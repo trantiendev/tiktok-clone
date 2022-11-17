@@ -17,7 +17,7 @@ const InfiniteListPosts = ({ posts }: IProps) => {
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
   const { fetchFeedPosts, listFeedPosts } = useAuthStore();
   const { posts: feedPosts, firstId, lastId, lastPublishedAt } = listFeedPosts;
-console.log('👻',hasMorePosts,  lastId)
+
   useEffect(() => {
     if (posts[0]?._id !== firstId) {
       fetchFeedPosts({
@@ -30,8 +30,8 @@ console.log('👻',hasMorePosts,  lastId)
   }, [posts]);
 
   useEffect(() => {
-    if (lastId === null) setHasMorePosts(false);
-  }, [])
+    (lastId === null) ? setHasMorePosts(false) : setHasMorePosts(true);
+  }, [lastId])
 
   const handleLoadMore = async () => {
     if (lastId === null) return [];

@@ -169,20 +169,21 @@ export const postDetailQuery = (postId: string | string[]) => {
 export const searchPostsQuery = (searchTerm: string | string[]) => {
   const query = `*[_type == "post" && caption match '${searchTerm}*' || topic match '${searchTerm}*'] {
     _id,
-     caption,
-       video{
-        asset->{
-          _id,
-          url
-        }
-      },
-      userId,
+    caption,
+      video{
+      asset->{
+        _id,
+        url
+      }
+    },
+    userId,
     postedBy->{
       _id,
       userName,
       image
     },
-likes,
+    likes,
+    topic,
     comments[]{
       comment,
       _key,

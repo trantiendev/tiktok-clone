@@ -6,11 +6,11 @@ import { BASE_URL } from '../utils';
 import InfiniteListPosts from '../components/InfiniteListPosts';
 
 interface IProps {
-  feedPosts: Video[];
+  videos: Video[];
 }
 
-const Home = ({ feedPosts }: IProps) => {
-  const [posts] = useState<Video[]>(feedPosts);
+const Home = ({ videos }: IProps) => {
+  const [posts] = useState<Video[]>(videos);
 
   return (
     <div className="flex flex-col gap-10 videos h-full">
@@ -19,12 +19,18 @@ const Home = ({ feedPosts }: IProps) => {
   );
 };
 
-export const getServerSideProps = async () => {
-  const { data: feedPosts } = await axios.get(`${BASE_URL}/api/post/feedPosts`);
+export const getServerSideProps = async ({
+  query: { topic },
+}: {
+  query: { topic: string };
+}) => {
+  let response = await axios.get(`${BASE_URL}/api/post/feedPosts`);
+
+  topic && (response = await axios.get(`${BASE_URL}/api/discover/${topic}`));
 
   return {
     props: {
-      feedPosts,
+      videos: response.data ,
     },
   };
 };
