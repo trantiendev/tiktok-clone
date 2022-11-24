@@ -57,7 +57,7 @@ a {
   }
 
   .video-container-primary {
-    @apply h-[calc(450px_+_((100vw_-_768px)_/_1152)_*_100)] w-0 pl-[56.25%];
+    @apply h-[calc(450px_+_((100vw_-_768px)_/_1152)_*_100)] w-auto md:w-0 pl-[56.25%];
   }
 
   .feed-video {

@@ -1,11 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
-import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { GoVerified } from 'react-icons/go';
-import { BsPlay } from 'react-icons/bs';
 
 import { Video } from './../types';
 
@@ -21,11 +18,18 @@ const VideoCard: NextPage<IProps> = ({
   secondaryVCard,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [mutedVideo, setMutedVideo] = useState(true);
 
   return (
     <div
-      onMouseEnter={() => videoRef?.current?.play()}
-      onMouseLeave={() => videoRef?.current?.pause()}
+      onMouseEnter={() => {
+        videoRef?.current?.play();
+        setMutedVideo(false);
+      }}
+      onMouseLeave={() => {
+        videoRef?.current?.pause();
+        setMutedVideo(true);
+      }}
       className={`flex flex-col ${
         !secondaryVCard && 'pb-6 border-b border-gray-200'
       }`}
@@ -77,6 +81,7 @@ const VideoCard: NextPage<IProps> = ({
         >
           <Link href={`/detail/${_id}`}>
             <video
+              muted={mutedVideo}
               loop
               controls={secondaryVCard ? false : true}
               ref={videoRef}
