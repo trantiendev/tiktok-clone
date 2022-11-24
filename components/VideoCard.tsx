@@ -18,7 +18,7 @@ const VideoCard: NextPage<IProps> = ({
   secondaryVCard,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [mutedVideo, setMutedVideo] = useState(true);
+  const [mutedVideo, setMutedVideo] = useState<any>();
 
   return (
     <div
@@ -81,8 +81,9 @@ const VideoCard: NextPage<IProps> = ({
         >
           <Link href={`/detail/${_id}`}>
             <video
-              muted={mutedVideo}
+              muted={mutedVideo ?? true}
               loop
+              autoPlay={false}
               controls={secondaryVCard ? false : true}
               ref={videoRef}
               src={video.asset.url}
