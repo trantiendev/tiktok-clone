@@ -12,14 +12,13 @@ import { topics } from '../utils/constants';
 
 const Upload = () => {
   const [topic, setTopic] = useState<String>(topics[0].name);
-
-  const [caption, setCaption] = useState('');
+  const [caption, setCaption] = useState<string>('');
   const [loading, setLoading] = useState<Boolean>(false);
   const [videoAsset, setVideoAsset] = useState<SanityAssetDocument>();
   const [wrongFileType, setWrongFileType] = useState<Boolean>(false);
   const [savingPost, setSavingPost] = useState<Boolean>(false);
+  
   const router = useRouter();
-
   const userProfile: any = useAuthStore((state) => state.userProfile);
 
   const uploadVideo = async (e: any) => {

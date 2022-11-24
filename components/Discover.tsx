@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import { topics } from '../utils/constants';
 
-const Discover = () => {
+const Discover: NextPage = () => {
   const router = useRouter();
   const { topic } = router.query;
 

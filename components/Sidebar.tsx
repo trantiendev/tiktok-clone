@@ -4,14 +4,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { AiFillHome, AiOutlineMenu } from 'react-icons/ai';
 import { ImCancelCircle } from 'react-icons/im';
-import GoogleLogin from 'react-google-login';
 import Discover from './Discover';
 import SuggestedAccounts from './SuggestedAccounts';
 import Footer from './Footer';
 import useAuthStore from '../store/authStore';
 
-const Sidebar = () => {
-  const [showSidebar, setShowSidebar] = useState(true);
+const Sidebar: NextPage = () => {
+  const [showSidebar, setShowSidebar] = useState<Boolean>(true);
   const { pathname } = useRouter();
   const { fetchAllUsers, allUsers, userProfile }: any = useAuthStore();
 
@@ -19,7 +18,7 @@ const Sidebar = () => {
     <div>
       <div
         className="block xl:hidden m-2 ml-4 mt-3 text-xl"
-        onClick={() => setShowSidebar((prev) => !prev)}
+        onClick={() => setShowSidebar((toggleSidebar) => !toggleSidebar)}
       >
         {showSidebar ? <ImCancelCircle /> : <AiOutlineMenu />}
       </div>
