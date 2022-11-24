@@ -1,5 +1,6 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
@@ -22,6 +23,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GoogleOAuthProvider
       clientId={`${process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}`}
     >
+      <Head>
+        <title>TikTok - Go Fun Urself</title>
+      </Head>
       <div className="xl:w-[1200px] m-auto">
         <Navbar />
         <div className="flex gap-6 md:gap-20 mt-[70px]">
